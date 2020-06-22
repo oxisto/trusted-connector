@@ -38,6 +38,7 @@ import javax.ws.rs.core.MediaType;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * REST API interface for "data pipes" in the connector.
@@ -49,6 +50,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Julian Schuette (julian.schuette@aisec.fraunhofer.de)
  */
+@Component
 @Path("/routes")
 @Api(
   value = "Message Routing",

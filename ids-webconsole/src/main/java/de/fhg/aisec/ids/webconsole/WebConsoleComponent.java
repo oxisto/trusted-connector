@@ -55,12 +55,6 @@ public class WebConsoleComponent {
   private TokenManager tokenManager = null;
 
   @Reference(cardinality = ReferenceCardinality.OPTIONAL)
-  private Settings settings = null;
-
-  @Reference(cardinality = ReferenceCardinality.OPTIONAL)
-  private ContainerManager cml = null;
-
-  @Reference(cardinality = ReferenceCardinality.OPTIONAL)
   private AcmeClient acmeClient = null;
 
   @Reference(cardinality = ReferenceCardinality.OPTIONAL)
@@ -71,9 +65,6 @@ public class WebConsoleComponent {
 
   @Reference(cardinality = ReferenceCardinality.OPTIONAL)
   private PAP pap = null;
-
-  @Reference(cardinality = ReferenceCardinality.OPTIONAL)
-  private InfoModel im = null;
 
   private static WebConsoleComponent instance;
 
@@ -87,15 +78,6 @@ public class WebConsoleComponent {
   @SuppressWarnings("squid:S2696")
   protected void deactivate() {
     instance = null;
-  }
-
-  @Nullable
-  public static ContainerManager getContainerManager() {
-    WebConsoleComponent in = instance;
-    if (in != null) {
-      return in.cml;
-    }
-    return null;
   }
 
   @Nullable
@@ -126,15 +108,6 @@ public class WebConsoleComponent {
   }
 
   @Nullable
-  public static Settings getSettings() {
-    WebConsoleComponent in = instance;
-    if (in != null) {
-      return in.settings;
-    }
-    return null;
-  }
-
-  @Nullable
   public static RouteManager getRouteManager() {
     WebConsoleComponent in = instance;
     if (in != null) {
@@ -148,15 +121,6 @@ public class WebConsoleComponent {
     WebConsoleComponent in = instance;
     if (in != null) {
       return in.pap;
-    }
-    return null;
-  }
-
-  @Nullable
-  public static InfoModel getInfoModelManager() {
-    WebConsoleComponent in = instance;
-    if (in != null) {
-      return in.im;
     }
     return null;
   }

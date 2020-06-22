@@ -9,9 +9,12 @@ import de.fraunhofer.iais.eis.ids.jsonld.Serializer
 import de.fraunhofer.iais.eis.util.ConstraintViolationException
 import de.fraunhofer.iais.eis.util.TypedLiteral
 import org.osgi.service.component.annotations.Component
+import de.fraunhofer.iais.eis.util.PlainLiteral
+import de.fraunhofer.iais.eis.util.Util
 import org.osgi.service.component.annotations.Reference
 import org.osgi.service.component.annotations.ReferenceCardinality
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
@@ -21,16 +24,20 @@ import javax.xml.datatype.DatatypeFactory
 /**
  * IDS Info Model Manager.
  */
-@Component(name = "ids-infomodel-manager", immediate = true)
+//@Component(name = "ids-infomodel-manager", immediate = true)
+@org.springframework.stereotype.Component
 class InfoModelService : InfoModel {
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY)
-    private var settings: Settings? = null
+    @Autowired
+    private lateinit var settings: Settings
+
     @Reference(cardinality = ReferenceCardinality.OPTIONAL)
+    @Autowired(required = false)
     private var connectionManager: ConnectionManager? = null
 
     private val connectorProfile: ConnectorProfile?
-        get() = settings?.connectorProfile
+        get() = settings.connectorProfile
 
     /**
      * Build ConnectorAvailableMessage for IDS message headers

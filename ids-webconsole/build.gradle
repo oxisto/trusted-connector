@@ -12,10 +12,10 @@ sourceSets {
     }
 }
 
-swagger {    
+swagger {
     apiSource {
         springmvc = false
-        locations = [ 'de.fhg.aisec.ids.webconsole.api' ]
+        locations = ['de.fhg.aisec.ids.webconsole.api']
         schemes = ['http']
         host = 'localhost:8181'
         basePath = '/'
@@ -26,14 +26,14 @@ swagger {
                 url = 'http://www.apache.org/licenses/LICENSE-2.0.html'
                 name = 'Apache 2.0'
             }
-            description ='''This is the administrative REST API of the Trusted Connector.
+            description = '''This is the administrative REST API of the Trusted Connector.
 
 The API provides an administrative interface to manage the Trusted Connector at runtime
 and is used by the default administration dashboard ("web console").
 '''
         }
         swaggerDirectory = "${project.projectDir}/generated/swagger-ui"
-        outputFormats = ['json','yaml']
+        outputFormats = ['json', 'yaml']
         securityDefinition {
             // `name` can be used refer to this security schemes from elsewhere
             name = 'oauth2'
@@ -45,7 +45,7 @@ and is used by the default administration dashboard ("web console").
                 name = 'write:api'
                 description = 'Read and write access to the API'
             }
-        }        
+        }
         /* the plugin could theoretically also generate the html files, however it currently only allows 
         for the generation of html OR swagger.json, not both. Therefore we still need to use spectacle using yarn */
         // templatePath = "${project.projectDir}/src/test/resources/strapdown.html.hbs"
@@ -54,7 +54,10 @@ and is used by the default administration dashboard ("web console").
 }
 
 dependencies {
-    providedByBundle(project(':ids-api')) { transitive = false }
+    //providedByBundle(project(':ids-api')) { transitive = false }
+
+    implementation(project(':ids-api'))
+    implementation("org.springframework.boot:spring-boot-starter-jersey")
 
     // Actual implementation must be provided by ids-infomodel-manager
     compileOnly group: 'de.fraunhofer.iais.eis.ids.infomodel', name: 'java', version: libraryVersions.infomodel
@@ -113,7 +116,7 @@ task yarnBuild(type: YarnTask) {
     inputs.dir('src/main/resources/www/src').withPathSensitivity(PathSensitivity.RELATIVE)
     outputs.dir('build/resources/main/www')
     outputs.cacheIf { true }
-    
+
     workingDir = file('src/main/resources/www')
     args = ['bundle']
     onlyIf { !rootProject.hasProperty("skipAngular") }
@@ -126,7 +129,7 @@ task yarnLint(type: YarnTask) {
     inputs.dir('src/main/resources/www/src').withPathSensitivity(PathSensitivity.RELATIVE)
     outputs.upToDateWhen { true }
     outputs.cacheIf { true }
-    
+
     workingDir = file('src/main/resources/www')
     args = ['lint']
     onlyIf { !rootProject.hasProperty("skipAngular") }

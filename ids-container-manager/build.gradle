@@ -19,6 +19,8 @@ idea {
 dependencies {
     providedByBundle(project(':ids-api')) { transitive = false }
 
+    implementation("org.springframework.boot:spring-boot-starter")
+
     // Provided dependency of docker-java-api
     providedByBundle group: 'org.glassfish', name: 'javax.json', version: libraryVersions.javaxJson
     // Required until our library PR has been accepted
@@ -26,7 +28,9 @@ dependencies {
         exclude group: 'com.github.jnr', module: 'jnr-unixsocket'
     }
 
-    compileOnly project(":jnr-unixsocket-wrapper")
+    //compileOnly project(":jnr-unixsocket-wrapper")
+    implementation group: 'com.github.jnr', name: 'jnr-unixsocket', version: libraryVersions.jnrunix
+    implementation group: 'com.github.jnr', name: 'jnr-ffi', version: libraryVersions.jnrffi
 
     providedByBundle group: 'com.google.protobuf', name: 'protobuf-java', version: libraryVersions.protobuf
 

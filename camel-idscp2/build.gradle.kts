@@ -5,7 +5,10 @@ dependencies {
             rootProject.ext.get("libraryVersions") as Map<String, String>
     
     providedByBundle(project(":ids-api")) { isTransitive = false }
-    providedByBundle(project(":idscp2-app-layer"))
+
+    api(project(":idscp2-app-layer"))
+
+    implementation("org.springframework.boot:spring-boot-starter")
 
     // Bill of Materials (BOM) for Camel
     bom("org.apache.camel", "camel-parent", libraryVersions["camel"])

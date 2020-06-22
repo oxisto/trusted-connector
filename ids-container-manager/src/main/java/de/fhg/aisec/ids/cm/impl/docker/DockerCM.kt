@@ -53,6 +53,7 @@ class DockerCM : ContainerManager {
         private lateinit var DOCKER_CLIENT: Docker
         private val PERIOD_UNITS = listOf<TemporalUnit>(ChronoUnit.YEARS, ChronoUnit.MONTHS, ChronoUnit.DAYS)
         private val DURATION_UNITS = listOf<TemporalUnit>(ChronoUnit.HOURS, ChronoUnit.MINUTES, ChronoUnit.SECONDS)
+
         /**
          * Returns true if Docker is supported.
          *
@@ -62,9 +63,10 @@ class DockerCM : ContainerManager {
             get() {
                 return try {
                     DOCKER_CLIENT.ping()
-                } catch (e: Exception) {
-                    when(e) {
+                } catch (e: Throwable) {
+                    when (e) {
                         is UninitializedPropertyAccessException -> LOG.warn("Docker client is not available")
+                        is UnsatisfiedLinkError -> LOG.warn("Docker client is not available")
                         else -> LOG.error(e.message, e)
                     }
                     false

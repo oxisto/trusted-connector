@@ -27,10 +27,12 @@ import de.fhg.aisec.ids.idscp2.idscp_core.configuration.Idscp2Settings
 import de.fhg.aisec.ids.idscp2.idscp_core.rat_registry.RatProverDriverRegistry
 import de.fhg.aisec.ids.idscp2.idscp_core.rat_registry.RatVerifierDriverRegistry
 import org.apache.camel.Endpoint
+import org.apache.camel.language.bean.Bean
 import org.apache.camel.spi.annotations.Component
 import org.apache.camel.support.DefaultComponent
 
 @Component("idscp2server")
+@org.springframework.stereotype.Component
 class Idscp2ServerComponent : DefaultComponent() {
     private val servers = RefCountingHashMap<Idscp2Settings, CamelIdscp2Server> {
         it.terminate()

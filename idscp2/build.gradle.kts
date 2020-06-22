@@ -41,7 +41,7 @@ dependencies {
     providedByBundle("io.jsonwebtoken", "jjwt-api", libraryVersions["jsonwebtoken"])
     providedByBundle("org.json", "json", libraryVersions["orgJson"])
     providedByBundle("org.bitbucket.b_c", "jose4j", libraryVersions["jose4j"])
-    providedByBundle("com.squareup.okhttp3", "okhttp", libraryVersions["okhttp"])
+    api("com.squareup.okhttp3", "okhttp", libraryVersions["okhttp"])
 
     testImplementation("junit", "junit", libraryVersions["junit4"])
     testImplementation("org.mockito", "mockito-core", libraryVersions["mockito"])

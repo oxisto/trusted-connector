@@ -31,6 +31,9 @@ import de.fhg.aisec.ids.api.settings.Settings;
 import de.fhg.aisec.ids.api.tokenm.TokenManager;
 import de.fhg.aisec.ids.webconsole.WebConsoleComponent;
 import io.swagger.annotations.*;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -51,6 +54,7 @@ import java.util.stream.Collectors;
  * @author Gerd Brost (gerd.brost@aisec.fraunhofer.de)
  * @author Michael Lux (michael.lux@aisec.fraunhofer.de)
  */
+@Component
 @Path("/config")
 @Api(
   value = "Connector Configuration",
@@ -59,21 +63,23 @@ import java.util.stream.Collectors;
 public class ConfigApi {
   private static final Pattern CONNECTION_CONFIG_PATTERN = Pattern.compile(".* - ([^ ]+)$");
 
+  private Settings settings;
+
+  public ConfigApi(@Autowired @NonNull Settings settings) {
+    this.settings = settings;
+  }
+
   @GET
   @ApiOperation(value = "Retrieves the current configuration", response = ConnectorConfig.class)
   @Path("/connectorConfig")
   @Produces(MediaType.APPLICATION_JSON)
   @AuthorizationRequired
   public ConnectorConfig get() {
-    Settings settings = WebConsoleComponent.getSettings();
-    if (settings == null) {
-      return null;
-    }
     return settings.getConnectorConfig();
   }
 
   @POST
-  @OPTIONS
+  //@OPTIONS
   @Path("/connectorConfig")
   @ApiOperation(value = "Sets the overall configuration of the connector")
   @ApiResponses(
@@ -89,10 +95,6 @@ public class ConfigApi {
       throw new BadRequestException("No valid preferences received!");
     }
 
-    Settings settings = WebConsoleComponent.getSettings();
-    if (settings == null) {
-      return "No settings available";
-    }
     settings.setConnectorConfig(config);
     TokenManager tokenManager = WebConsoleComponent.getTokenManager();
     if (tokenManager == null) {
@@ -140,11 +142,6 @@ public class ConfigApi {
       Response.serverError().entity("No valid connection settings received!").build();
     }
 
-    Settings settings = WebConsoleComponent.getSettings();
-    if (settings == null) {
-      return Response.serverError().build();
-    }
-
     //connection has format "<route_id> - host:port"
     //store only "host:port" in database to make connection available in other parts of the application
     // where rout_id is not available
@@ -179,11 +176,6 @@ public class ConfigApi {
   @Produces(MediaType.APPLICATION_JSON)
   @AuthorizationRequired
   public ConnectionSettings getConnectionConfigurations(@PathParam("con") String connection) {
-    Settings settings = WebConsoleComponent.getSettings();
-    if (settings == null) {
-      return null;
-    }
-
     return settings.getConnectionSettings(connection);
   }
 
@@ -205,7 +197,6 @@ public class ConfigApi {
   @Produces(MediaType.APPLICATION_JSON)
   @AuthorizationRequired
   public Map<String, ConnectionSettings> getAllConnectionConfigurations() {
-    Settings settings = WebConsoleComponent.getSettings();
     ConnectionManager connectionManager = WebConsoleComponent.getConnectionManager();
     RouteManager routeManager = WebConsoleComponent.getRouteManager();
 

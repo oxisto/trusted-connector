@@ -23,9 +23,8 @@ idea {
 }
 
 dependencies {
-    providedByBundle group: 'com.google.protobuf', name: 'protobuf-java', version: libraryVersions.protobuf
-
-    providedByBundle group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: libraryVersions.jackson
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: libraryVersions.protobuf
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: libraryVersions.jackson
 
     publishCompile group: 'org.checkerframework', name: 'checker-qual', version: libraryVersions.checkerQual
 

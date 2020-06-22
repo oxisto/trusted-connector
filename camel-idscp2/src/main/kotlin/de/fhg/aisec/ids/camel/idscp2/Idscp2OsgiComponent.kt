@@ -23,28 +23,44 @@ import de.fhg.aisec.ids.api.endpointconfig.EndpointConfigManager
 import de.fhg.aisec.ids.api.infomodel.InfoModel
 import de.fhg.aisec.ids.api.settings.Settings
 import de.fhg.aisec.ids.api.tokenm.TokenManager
+import org.apache.camel.support.jsse.KeyManagersParameters
+import org.apache.camel.support.jsse.KeyStoreParameters
+import org.apache.camel.support.jsse.SSLContextParameters
+import org.apache.camel.support.jsse.TrustManagersParameters
 import org.osgi.service.component.annotations.*
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import javax.annotation.PostConstruct
+import javax.annotation.PreDestroy
+import javax.net.ssl.KeyManager
 
 @Component
+@org.springframework.stereotype.Component
 class Idscp2OsgiComponent {
     @Reference(cardinality = ReferenceCardinality.MANDATORY)
+    @Autowired
     private lateinit var settings: Settings
 
+    @Autowired
     @Reference(cardinality = ReferenceCardinality.MANDATORY)
     private lateinit var infoModelManager: InfoModel
 
+    @Autowired(required = false)
     @Reference(cardinality = ReferenceCardinality.OPTIONAL)
     private var tokenManager: TokenManager? = null
 
+    @Autowired(required = false)
     @Reference(cardinality = ReferenceCardinality.OPTIONAL)
     private var endpointConfigManager: EndpointConfigManager? = null
 
     @Activate
+    @PostConstruct
     fun activate() {
         instance = this
     }
 
     @Deactivate
+    @PreDestroy
     fun deactivate() {
         instance = null
     }
@@ -98,4 +114,5 @@ class Idscp2OsgiComponent {
             return instance?.endpointConfigManager
         }
     }
+
 }

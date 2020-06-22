@@ -27,8 +27,8 @@ configure<IdeaModel> {
 dependencies {
     infomodelBundle(project(":ids-api")) { isTransitive = false }
 
-    implementation("de.fraunhofer.iais.eis.ids.infomodel", "java", libraryVersions["infomodel"])
-    implementation("de.fraunhofer.iais.eis.ids", "infomodel-serializer", libraryVersions["infomodelSerializer"])
+    api("de.fraunhofer.iais.eis.ids.infomodel", "java", libraryVersions["infomodel"])
+    api("de.fraunhofer.iais.eis.ids", "infomodel-serializer", libraryVersions["infomodelSerializer"])
 
     infomodelBundle("commons-cli", "commons-cli", libraryVersions["commonsCli"])
 
@@ -38,4 +38,6 @@ dependencies {
     infomodelBundle("com.fasterxml.jackson.core", "jackson-databind", libraryVersions["jackson"])
 
     osgiCore("org.osgi", "osgi.cmpn", libraryVersions["osgiCompendium"])
+
+    implementation("org.springframework.boot:spring-boot-starter")
 }
